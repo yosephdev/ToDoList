@@ -1,2 +1,2 @@
-# ToDoList
-To Do List web application using jQuery 
+#ToDoList
+To Do List web application using jQuery

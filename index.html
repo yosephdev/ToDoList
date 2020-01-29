@@ -3,15 +3,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">    
+    <title>To Do List App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="index.css" rel="stylesheet" type="text/css" />
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"></script>
+    <script src="index.js"></script>
   </head>
   <body>
-    <script src="index.js"></script>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="row">
+           <h2>To-Do List App</h2>
+          <div id='todo-list'>
+          </div>
+          <form id="create-task">
+            <input id="new-task-content" type="text" placeholder="Enter To Do List" required/>
+            <button>Create</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
