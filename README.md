@@ -1,5 +1,5 @@
 # General info
-This To Do List web application is part of my Altcademy JQuery course
+This To Do List web application was built as part of my Altcademy JQuery course.
 
 # Technologies
 Application is created with:
