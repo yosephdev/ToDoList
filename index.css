@@ -1,52 +1,60 @@
-body {
-  background: url('debut_light.png')
-}
-
-#row {
-  box-shadow: 0 0 5px #684F91;
-  font-size: 18px;
-  color: #080D3B;
-  background-color: white;
-}
-
 .container {
-  width: 600px;
-  font-size: 40px;
+  margin: auto;
+  padding: 10px;
+  max-width: 500px;
+}
+
+h1 {
   text-align: center;
-  margin: 20px auto;
+  font-size: 48px;
+  margin-bottom: 30px;
 }
 
-h2 {
-  margin: 5px;
-  color: #7d82b0;
+form {
+  display: flex;
+  margin-bottom: 20px;
 }
 
-.delete {
-  margin-right: 5px;
-  background-color:#fc999b;
-  color:#ffffff;
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 5px 0 0 5px;
+  border: none;
 }
 
-.delete:hover {
+button[type="submit"] {
+  padding: 10px;
+  font-size: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
-  opacity: .8;
 }
 
-button {
-  background-color:#87c700;
-  color:#ffffff;
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-button:hover {
+p {
+  font-size: 20px;
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+button.delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
   cursor: pointer;
-  opacity: .8;
 }
 
-#todo-list, #create-task {
-  width: 100%;
-  padding: 10px 30px;
-  border-left:    1px  solid #7d82b0;
-  border-right:   1px  solid #7d82b0;
-  border-bottom:  2px  solid #7d82b0;
-  border-top:     15px solid #477187;
+input.mark-complete {
+  margin-right: 10px;
+  cursor: pointer;
 }
