@@ -1,99 +1,127 @@
-$(document).ready(function() {
-  var getAndDisplayAllTasks = function() {
-    $.ajax({
-      type: 'GET',
-      url: 'https://altcademy-to-do-list-api.herokuapp.com/tasks?api_key=99',
-      dataType: 'json',
-      success: function(response, textStatus) {
-        $('#todo-list').empty();
-        response.tasks.forEach(function(task) {
-          $('#todo-list').append('<div class="row"><p class="col-xs-8">' + task.content + '</p><button class="delete" data-id="' + task.id + '">Delete</button><input type="checkbox" class="mark-complete" data-id="' + task.id + '"' + (task.completed ? 'checked' : '') + '>');
-        });
-      },
-      error: function(request, textStatus, errorMessage) {
-        console.log(errorMessage);
-      }
+const API_KEY = "99";
+const API_URL = "https://altcademy-to-do-list-api.herokuapp.com/tasks";
+
+const getAndDisplayAllTasks = async () => {
+  try {
+    const response = await fetch(`${API_URL}?api_key=${API_KEY}`);
+    const data = await response.json();
+    const tasks = data.tasks;
+    const todoList = document.querySelector("#todo-list");
+    todoList.innerHTML = "";
+    tasks.forEach((task) => {
+      const taskEl = createTaskElement(task);
+      todoList.appendChild(taskEl);
     });
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  var createTask = function() {
-    $.ajax({
-      type: 'POST',
-      url: 'https://altcademy-to-do-list-api.herokuapp.com/tasks?api_key=99',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({
-        task: {
-          content: $('#new-task-content').val()
-        }
-      }),
-      success: function(response, textStatus) {
-        $('#new-task-content').val('');
-        getAndDisplayAllTasks();
-      },
-      error: function(request, textStatus, errorMessage) {
-        console.log(errorMessage);
-      }
+const createTask = async (content) => {
+  try {
+    await fetch(`${API_URL}?api_key=${API_KEY}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task: { content } }),
     });
+    document.querySelector("#new-task-content").value = "";
+    await getAndDisplayAllTasks();
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  $('#create-task').on('submit', function(e) {
-    e.preventDefault();
-    createTask();
-  });
-
-  var deleteTask = function(id) {
-    $.ajax({
-      type: 'DELETE',
-      url: 'https://altcademy-to-do-list-api.herokuapp.com/tasks/' + id + '?api_key=99',
-      success: function(response, textStatus) {
-        getAndDisplayAllTasks();
-      },
-      error: function(request, textStatus, errorMessage) {
-        console.log(errorMessage);
-      }
+const deleteTask = async (id) => {
+  try {
+    await fetch(`${API_URL}/${id}?api_key=${API_KEY}`, {
+      method: "DELETE",
     });
+    await getAndDisplayAllTasks();
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  $(document).on('click', '.delete', function() {
-    deleteTask($(this).data('id'));
-  });
-
-  var markTaskComplete = function(id) {
-    $.ajax({
-      type: 'PUT',
-      url: 'https://altcademy-to-do-list-api.herokuapp.com/tasks/' + id + '/mark_complete?api_key=99',
-      dataType: 'json',
-      success: function(response, textStatus) {
-        getAndDisplayAllTasks();
-      },
-      error: function(request, textStatus, errorMessage) {
-        console.log(errorMessage);
-      }
+const markTaskComplete = async (id) => {
+  try {
+    await fetch(`${API_URL}/${id}/mark_complete?api_key=${API_KEY}`, {
+      method: "PUT",
     });
+    await getAndDisplayAllTasks();
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  var markTaskActive = function(id) {
-    $.ajax({
-      type: 'PUT',
-      url: 'https://altcademy-to-do-list-api.herokuapp.com/tasks/' + id + '/mark_active?api_key=99',
-      dataType: 'json',
-      success: function(response, textStatus) {
-        getAndDisplayAllTasks();
-      },
-      error: function(request, textStatus, errorMessage) {
-        console.log(errorMessage);
-      }
+const markTaskActive = async (id) => {
+  try {
+    await fetch(`${API_URL}/${id}/mark_active?api_key=${API_KEY}`, {
+      method: "PUT",
     });
+    await getAndDisplayAllTasks();
+  } catch (error) {
+    console.error(error);
   }
+};
 
-  $(document).on('change', '.mark-complete', function() {
-    if (this.checked) {
-      markTaskComplete($(this).data('id'));
+const createTaskElement = (task) => {
+  const taskEl = document.createElement("div");
+  taskEl.className = "row";
+
+  const checkboxEl = document.createElement("input");
+  checkboxEl.type = "checkbox";
+  checkboxEl.checked = task.completed;
+  checkboxEl.addEventListener("change", async () => {
+    if (checkboxEl.checked) {
+      await markTaskComplete(task.id);
     } else {
-      markTaskActive($(this).data('id'));
+      await markTaskActive(task.id);
     }
   });
 
-  getAndDisplayAllTasks();
-});
+  const contentEl = document.createElement("span");
+  contentEl.textContent = task.content;
+  contentEl.className = "content";
+
+  const deleteButtonEl = document.createElement("button");
+  deleteButtonEl.textContent = "Delete";
+  deleteButtonEl.className = "delete-button";
+  deleteButtonEl.addEventListener("click", async () => {
+    await deleteTask(task.id);
+  });
+
+  taskEl.appendChild(checkboxEl);
+  taskEl.appendChild(contentEl);
+  taskEl.appendChild(deleteButtonEl);
+
+  return taskEl;
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  const checkboxEl = document.querySelector("input[type='checkbox']");
+  if (checkboxEl) {
+    checkboxEl.addEventListener("change", function () {
+      const todoList = document.querySelector("#todo-list");
+      const completedTasks = todoList.querySelectorAll("input[type='checkbox']:checked");
+      const numCompletedTasks = completedTasks.length;
+      const numTotalTasks = todoList.querySelectorAll(".row").length;
+      const progressEl = document.querySelector("#progress");
+      progressEl.textContent = `${numCompletedTasks}/${numTotalTasks}`;
+    });
+  }
+
+  const formEl = document.querySelector("#create-task");
+  formEl.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const content = document.querySelector("#new-task-content").value;
+    if (content.trim() === "") {
+      alert("Please enter a task.");
+      return;
+    }
+    await createTask(content);
+  });
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    await getAndDisplayAllTasks();
+  });
+})
