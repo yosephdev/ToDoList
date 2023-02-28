@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var baseUrl = "http://localhost:8000/";
+  var baseUrl = "http://localhost:8000";
 
   var getAndDisplayAllTasks = function () {
     $.ajax({
@@ -10,6 +10,8 @@ $(document).ready(function () {
         // Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
+        console.log(response); // Check the value of response
+          response = [response]; 
         $("#todo-list").empty();
         response.forEach(function (task) {
           $("#todo-list").append(
