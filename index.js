@@ -7,7 +7,7 @@ $(document).ready(function () {
       url: baseUrl + "tasks/",
       dataType: "json",
       headers: {
-        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
         console.log(response); // Check the value of response
@@ -67,7 +67,7 @@ $(document).ready(function () {
       type: "DELETE",
       url: baseUrl + "tasks/" + id + "/",
       headers: {
-        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
         getAndDisplayAllTasks();
@@ -88,7 +88,7 @@ $(document).ready(function () {
       url: baseUrl + "tasks/" + id + "/close/",
       dataType: "json",
       headers: {
-        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
         getAndDisplayAllTasks();
@@ -105,7 +105,7 @@ $(document).ready(function () {
       url: baseUrl + "tasks/" + id + "/reopen/",
       dataType: "json",
       headers: {
-        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
         getAndDisplayAllTasks();
