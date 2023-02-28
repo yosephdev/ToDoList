@@ -4,9 +4,9 @@ $(document).ready(function () {
   var getAndDisplayAllTasks = function () {
     $.ajax({
       type: "GET",
-      url: baseUrl + "tasks/",
+      url: baseUrl + "/tasks",
       headers: {
-        Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "",
       },
       success: function (response) {
         console.log(response); // Check the value of response
@@ -36,7 +36,7 @@ $(document).ready(function () {
   var createTask = function () {
     $.ajax({
       type: "POST",
-      url: baseUrl + "tasks/",
+      url: baseUrl + "/tasks",
       contentType: "application/json",
       dataType: "json",
       data: JSON.stringify({
@@ -62,9 +62,9 @@ $(document).ready(function () {
   var deleteTask = function (id) {
     $.ajax({
       type: "DELETE",
-      url: baseUrl + "tasks/" + id + "/",
+      url: baseUrl + "/tasks" + id + "/",
       headers: {
-        Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "",
       },
       success: function (response) {
         getAndDisplayAllTasks();
@@ -99,10 +99,10 @@ $(document).ready(function () {
   var markTaskActive = function (id) {
     $.ajax({
       type: "POST",
-      url: baseUrl + "tasks/" + id + "/reopen/",
+      url: baseUrl + "/tasks" + id + "/reopen/",
       dataType: "json",
       headers: {
-        Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        Authorization: "",
       },
       success: function (response) {
         getAndDisplayAllTasks();
