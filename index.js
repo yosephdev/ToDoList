@@ -1,18 +1,18 @@
 $(document).ready(function () {
-  var baseUrl = "http://localhost:8000";
+  var baseUrl = "http://localhost:8000/";
 
   var getAndDisplayAllTasks = function () {
     $.ajax({
       type: "GET",
       url: baseUrl + "tasks/",
-      dataType: "json",
       headers: {
         Authorization: "Bearer YOUR_ACCESS_TOKEN",
       },
       success: function (response) {
         console.log(response); // Check the value of response
-          response = [response]; 
+        response = [response];
         $("#todo-list").empty();
+
         response.forEach(function (task) {
           $("#todo-list").append(
             '<div class="row"><p class="col-xs-8">' +
@@ -39,9 +39,6 @@ $(document).ready(function () {
       url: baseUrl + "tasks/",
       contentType: "application/json",
       dataType: "json",
-      headers: {
-        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
-      },
       data: JSON.stringify({
         content: $("#new-task-content").val(),
         due_string: "today",
