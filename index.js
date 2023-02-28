@@ -1,17 +1,20 @@
 $(document).ready(function () {
-  var baseUrl = "https://jsonplaceholder.typicode.com";
+  var baseUrl = "http://localhost:8000/";
 
   var getAndDisplayAllTasks = function () {
     $.ajax({
       type: "GET",
-      url: baseUrl + "/todos",
+      url: baseUrl + "tasks/",
       dataType: "json",
-      success: function (response, textStatus) {
+      headers: {
+        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+      },
+      success: function (response) {
         $("#todo-list").empty();
         response.forEach(function (task) {
           $("#todo-list").append(
             '<div class="row"><p class="col-xs-8">' +
-              task.title +
+              task.content +
               '</p><button class="delete" data-id="' +
               task.id +
               '">Delete</button><input type="checkbox" class="mark-complete" data-id="' +
@@ -31,14 +34,18 @@ $(document).ready(function () {
   var createTask = function () {
     $.ajax({
       type: "POST",
-      url: baseUrl + "/todos",
+      url: baseUrl + "tasks/",
       contentType: "application/json",
       dataType: "json",
+      headers: {
+        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+      },
       data: JSON.stringify({
-        title: $("#new-task-content").val(),
-        completed: false,
+        content: $("#new-task-content").val(),
+        due_string: "today",
+        due_lang: "en",
       }),
-      success: function (response, textStatus) {
+      success: function (response) {
         $("#new-task-content").val("");
         getAndDisplayAllTasks();
       },
@@ -56,8 +63,11 @@ $(document).ready(function () {
   var deleteTask = function (id) {
     $.ajax({
       type: "DELETE",
-      url: baseUrl + "/todos/" + id,
-      success: function (response, textStatus) {
+      url: baseUrl + "tasks/" + id + "/",
+      headers: {
+        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+      },
+      success: function (response) {
         getAndDisplayAllTasks();
       },
       error: function (request, textStatus, errorMessage) {
@@ -72,13 +82,13 @@ $(document).ready(function () {
 
   var markTaskComplete = function (id) {
     $.ajax({
-      type: "PATCH",
-      url: baseUrl + "/todos/" + id,
+      type: "POST",
+      url: baseUrl + "tasks/" + id + "/close/",
       dataType: "json",
-      data: JSON.stringify({
-        completed: true,
-      }),
-      success: function (response, textStatus) {
+      headers: {
+        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+      },
+      success: function (response) {
         getAndDisplayAllTasks();
       },
       error: function (request, textStatus, errorMessage) {
@@ -89,13 +99,13 @@ $(document).ready(function () {
 
   var markTaskActive = function (id) {
     $.ajax({
-      type: "PATCH",
-      url: baseUrl + "/todos/" + id,
+      type: "POST",
+      url: baseUrl + "tasks/" + id + "/reopen/",
       dataType: "json",
-      data: JSON.stringify({
-        completed: false,
-      }),
-      success: function (response, textStatus) {
+      headers: {
+        // Authorization: "Bearer YOUR_ACCESS_TOKEN",
+      },
+      success: function (response) {
         getAndDisplayAllTasks();
       },
       error: function (request, textStatus, errorMessage) {
